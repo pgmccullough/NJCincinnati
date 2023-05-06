@@ -1,10 +1,75 @@
 @use '../../styles/partials/colors' as *;
 
 .nav-bar {
+  display: flex;
   width: 100%;
   height: 2.55rem;
   background: $darkBlue;
   position: fixed;
   top: 6.25rem;
   left: 0;
+  &__container {
+    &:hover .nav-bar__active {
+      width: calc(100% + 44px);
+      transform: translateX(-22px);
+    }
+    &:hover .nav-bar__children {
+      max-height: 11rem;
+      border-bottom: 6px $darkBlue solid;
+    }
+  }
+  &__links {
+    display: flex;
+    margin: auto;
+    height: 100%;
+    width: 800px;
+    justify-content: space-evenly;
+  }
+  &__active {
+    width: 0px;
+    height: 0.25rem;
+    background: $gold;
+    margin: auto;
+    transition: 0.25s;
+    margin-bottom: 0.4rem;
+  }
+  &__parent {
+    list-style-type: none;
+    height: 100%;
+    font: 1rem Cabin, helvetica;
+    color: #fff;
+    cursor: pointer;
+    & a {
+      color: #fff;
+      text-decoration: none;
+      height: 100%;
+      display: block;
+      margin-top: -10px;
+      padding-top: 10px;
+    }
+  }
+  &__children {
+    position: absolute;
+    background: #fff;
+    margin-top: -10px;
+    margin-left: -22px;
+    list-style-type: none;
+    transition: max-height 0.5s;
+    max-height: 0;
+    overflow: hidden;
+    & li a {
+      font: 1rem Cabin, helvetica;
+      text-decoration: none;
+      padding: 6px 20px 10px 20px;
+      display: block;
+      color: #999;
+      transition: 0.25s;
+      &:hover {
+        color: $darkBlue;
+      }
+      &:first-of-type {
+        padding-top: 10px!important;
+      }
+    }
+  }
 }

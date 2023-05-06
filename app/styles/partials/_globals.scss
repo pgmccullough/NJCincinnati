@@ -1,3 +1,4 @@
+@use './colors' as *;
 @import url('https://fonts.googleapis.com/css?family=Vollkorn+SC|Crimson+Text|Cabin|IM+Fell+Great+Primer:ital@0;1');
 
 *, *::after, *::before {
@@ -8,4 +9,15 @@ body {
   margin: 0;
   background: url('../assets/bg-hatch.svg');
   min-height: 100vh;
+}
+
+h1 {
+  font-family: 'Crimson Text', Georgia, 'Times New Roman', Times, serif;
+  color: $green;
+}
+
+intro {
+  display: block;
+  font-size: 1.625rem;
+  line-height: 2.5rem;
 }

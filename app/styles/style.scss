@@ -2,3 +2,18 @@
 @use '../components/Header/Header.scss';
 @use '../components/Header/NavBar.scss';
 @use '../components/Header/SearchBar.scss';
+
+.content {
+  position: relative;
+  width: 1080px;
+  min-height: 100vh;
+  left: calc(50% - 540px);
+  padding: 10rem 5%;
+  background: #fff;
+  box-shadow: 0 0 20px 0 #666;
+  z-index: -1;
+  color: #333;
+  font: 1.125rem Cabin;
+  line-height: 1.5rem;
+  text-align: justify;
+}
