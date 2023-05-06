@@ -1,0 +1,27 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/mixins' as *;
+
+.search-bar {
+  display: none;
+  width: 18.75rem;
+  border: 2px $white solid;
+  border-radius: 8px;
+  margin-right: 1.25rem;
+  @include min-width(1050px) {
+    display: flex;
+    align-self: center;
+  }
+  &__input {
+    background: none;
+    width: 100%;
+    padding: 0.25rem;
+    border: 0;
+    color: #fff;
+    font: 18px Cabin;
+    &::placeholder {
+      color: #fff;
+      opacity: 0.6;
+      font-style: italic;
+    }
+  }
+}

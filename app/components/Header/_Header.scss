@@ -1,0 +1,55 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/mixins' as *;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 6.25rem;
+  background: $lightBlue url('../assets/nj-eagle-white-on-blue.jpg');
+  background-repeat: no-repeat;
+  background-size: 186px auto;
+  background-position: -3.25rem -1.05rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  @include min-width(500px) {
+    background-size: 250px auto;
+    background-position: -.25rem -0.75rem;
+  }
+  @include min-width(550px) {
+    background-size: auto;
+    background-position: -6rem -3.5rem;
+  }
+  &__title {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    white-space: nowrap;
+    margin-top: 1.25rem;
+    margin-left: 7rem;
+    font-size: 1.2rem;
+    color: $white;
+    font-family: 'IM Fell Great Primer', Georgia, 'Times New Roman', Times, serif;
+    @include min-width(500px) {
+      margin-left: 12rem;
+      font-size: 1.5rem;
+    }
+    @include min-width(550px) {
+      margin-top: 1.5rem;
+      margin-left: 45vw;
+    }
+    @include min-width(730px) {
+      margin-top: 0.5rem;
+      margin-left: 15rem;
+      font-size: 2.5rem;
+    }
+    &--large {
+      font-size: 1em;
+    }
+    &--small {
+      font-size: 0.65em;
+      letter-spacing: 0.1em
+    }
+  }
+}

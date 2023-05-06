@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css?family=Vollkorn+SC|Crimson+Text|Cabin|IM+Fell+Great+Primer:ital@0;1');
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: url('../assets/bg-hatch.svg');
+  min-height: 100vh;
+}

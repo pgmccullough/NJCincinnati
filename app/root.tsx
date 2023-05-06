@@ -1,4 +1,3 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
 import type { LinksFunction } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -11,10 +10,10 @@ import {
   useRouteError
 } from "@remix-run/react";
 import { V2_ErrorBoundaryComponent } from "@remix-run/react/dist/routeModules";
-
+import styles from "~/styles/style.css";
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
+  ...[{ rel: "stylesheet", href: styles }],
 ];
 
 export const ErrorBoundary: V2_ErrorBoundaryComponent|any = () => {
