@@ -138,6 +138,7 @@ model njsoc_posts {
   post_type             String   @default("post") @db.VarChar(20)
   post_mime_type        String   @default("") @db.VarChar(100)
   comment_count         BigInt   @default(0)
+  categories            njsoc_term_relationships[]
   custom_fields         njsoc_postmeta[]
 
   @@index([post_author], map: "post_author")
@@ -150,6 +151,8 @@ model njsoc_term_relationships {
   object_id        BigInt @default(0) @db.UnsignedBigInt
   term_taxonomy_id BigInt @default(0) @db.UnsignedBigInt
   term_order       Int    @default(0)
+  post             njsoc_posts @relation(fields: [object_id], references: [ID])
+  category         njsoc_term_taxonomy @relation(fields: [term_taxonomy_id], references: [term_taxonomy_id])
 
   @@id([object_id, term_taxonomy_id])
   @@index([term_taxonomy_id], map: "term_taxonomy_id")
@@ -162,6 +165,7 @@ model njsoc_term_taxonomy {
   description      String @db.LongText
   parent           BigInt @default(0) @db.UnsignedBigInt
   count            BigInt @default(0)
+  posts            njsoc_term_relationships[]
 
   @@unique([term_id, taxonomy], map: "term_id_taxonomy")
   @@index([taxonomy], map: "taxonomy")
