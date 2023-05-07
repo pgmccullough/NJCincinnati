@@ -43,7 +43,7 @@ export default function Page() {
       <NavBar />
       <main className="content">
         <h1>{userData?.post_title}</h1>
-        <article dangerouslySetInnerHTML={{__html: userData?.post_content}} />
+        <article className="content__article" dangerouslySetInnerHTML={{__html: userData?.post_content}} />
       </main>
     </>
   )

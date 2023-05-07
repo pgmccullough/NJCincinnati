@@ -1,0 +1,15 @@
+@use './member';
+
+.leftimg {
+  @extend .member__profile-image, .member__caption;
+  & img {
+    @extend .member__img;
+  }
+}
+
+.profile_stats {
+  margin: 10px 0 0 0;
+  text-shadow: -1px -1px #dbc616;
+  padding: 0px 10px;
+  line-height: 1em;
+}

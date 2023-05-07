@@ -1,5 +1,5 @@
 import { LoaderFunction } from '@remix-run/node';
-import { NavLink, useLoaderData } from '@remix-run/react';
+import { Link, useLoaderData } from '@remix-run/react';
 import { Header, NavBar } from '~/components';
 import { V2_MetaFunction } from '@remix-run/node';
 
@@ -48,15 +48,15 @@ export default function Page() {
               className={`propositi-table${Number(getCustomFields(custom_fields,"Represented"))?" propositi-table--represented":""}`}
             >
               <div className="propositi-table__cell">
-                <NavLink to={`/member/${propositus.post_name}`}>
+                <Link to={`/member/${propositus.post_name}`}>
                   {`${getCustomFields(custom_fields,"Sort Last Name")}, 
                     ${getCustomFields(custom_fields,"Sort First Name")}`}
-                </NavLink>
+                </Link>
               </div>
               <div className="propositi-table__cell">
-                <NavLink to={`/member/${propositus.post_name}`}>
+                <Link to={`/member/${propositus.post_name}`}>
                   {getCustomFields(custom_fields,"Sort Desc")}
-                </NavLink>
+                </Link>
               </div>
             </div>
           )
