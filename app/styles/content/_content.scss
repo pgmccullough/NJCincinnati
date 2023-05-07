@@ -1,1 +1,7 @@
 @use './pages/propositi';
+
+.content {
+  &__article {
+    white-space: pre-line;
+  }
+}

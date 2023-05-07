@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { sanitize } from '..';
+import { sanitizeArray as sanitize } from '..';
 
 const prisma = new PrismaClient();
 

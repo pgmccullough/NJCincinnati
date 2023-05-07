@@ -13,7 +13,14 @@ body {
 
 h1 {
   font-family: 'Crimson Text', Georgia, 'Times New Roman', Times, serif;
+  font-size: 2rem;
   color: $green;
+}
+
+h2 {
+  font-family: 'Vollkorn SC';
+  color: $darkBlue;
+  font-weight: bold;
 }
 
 intro {
