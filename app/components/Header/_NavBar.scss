@@ -1,11 +1,12 @@
 @use '../../styles/partials/colors' as *;
 
 .nav-bar {
+  position: fixed;
   display: flex;
   width: 100%;
   height: 2.55rem;
+  z-index: 1;
   background: $darkBlue;
-  position: fixed;
   top: 6.25rem;
   left: 0;
   &__container {

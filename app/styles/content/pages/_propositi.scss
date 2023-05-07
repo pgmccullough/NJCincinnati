@@ -1,0 +1,28 @@
+@use '../../partials/colors' as *;
+
+.propositi-table {
+  display: flex;
+  &__cell {
+    border-right: 2px $darkBlue solid;
+    border-bottom: 2px $darkBlue solid;
+    & a {
+      display: block;
+      padding: 0.625rem;
+      text-decoration: none;
+      color: $black;
+    }
+    &:first-of-type {
+      width: 20%;
+    }
+    &:nth-of-type(2) {
+      width: 80%;
+    }
+  }
+  &--represented {
+    background: $lightBlue;
+    color: $white;
+    & .propositi-table__cell a {
+      color: $white;
+    }
+  }
+}
