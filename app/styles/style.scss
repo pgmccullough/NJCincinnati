@@ -1,8 +1,9 @@
 @use './partials/globals';
-@use '../components/Header/Header.scss';
-@use '../components/Header/NavBar.scss';
-@use '../components/Header/SearchBar.scss';
-@use './content/content.scss';
+@use '../components/Header/Header';
+@use '../components/Header/NavBar';
+@use '../components/Header/SearchBar';
+@use '../components/Card/Card';
+@use './content/content';
 
 .content {
   position: relative;

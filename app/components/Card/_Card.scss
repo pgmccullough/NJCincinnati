@@ -1,0 +1,42 @@
+@use '../../styles/partials/colors' as *;
+@use '../../styles/partials/mixins' as *;
+
+.card {
+  display: flex;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 0 6px 0 #000;
+  transition: 0.25s;
+  &--active {
+    background: $transBlue;
+    border: 2px $lightBlue solid;
+    box-shadow: none;
+    margin: 2.5rem 0px;
+  }
+  &__image {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    object-fit: cover;
+
+  }
+  &__title {
+    font: 1rem 'Vollkorn SC';
+    color: $darkBlue;
+    font-weight: bold;
+  }
+  &__subtitle {
+    font: 0.875rem 'Crimson Text';
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-top: -6px;
+    color: $green;
+  }
+  &__text {
+    font: 0.875rem Cabin;
+    color: $black;
+    line-height: 1.1em;
+    padding-bottom: 0.625rem;
+    text-align: justify;
+  }
+}
