@@ -30,7 +30,6 @@ const navLinks = [
 
 export const NavBar: React.FC = () => {
   let data: any = useLoaderData<any>();
-  const { user } = data;
   return (
     <div className="nav-bar">
       <nav className="nav-bar__links">
@@ -52,7 +51,7 @@ export const NavBar: React.FC = () => {
           )
         })}
       </nav>
-      {!user?<Login />:<MemberMenu />}
+      {data?.user?<MemberMenu />:<Login />}
     </div>
   )
 }

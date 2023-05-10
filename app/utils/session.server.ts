@@ -50,11 +50,13 @@ export async function getUserId(request: Request) {
 
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
+  if(!userId) return null;
   const prisma = new PrismaClient();
   let user_post:any = await prisma.njsoc_postmeta.findFirst({
     where: { meta_key: "User uID", meta_value: userId.toString() }
   })
   .catch(error => console.error(error));
+  console.log(user_post);
   const user = await getPostByID(user_post.post_id);
   const username = user.post_title;
   const img = getCustomFields(JSON.parse(user.custom_fields),"User Thumb");

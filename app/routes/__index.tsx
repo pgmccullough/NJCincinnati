@@ -5,6 +5,7 @@ import { Header, NavBar } from "~/components";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const user = await getUser(request);
+  if(!user) return null;
   return { user };
 }
 
@@ -13,8 +14,6 @@ export const meta: V2_MetaFunction = () => {
 };
 
 export default function Index() {
-  let user: any = useLoaderData<any>();
-  console.log(user);
   return (
     <>
       <Header />
