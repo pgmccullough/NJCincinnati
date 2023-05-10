@@ -1,4 +1,6 @@
-import { Link } from "@remix-run/react"
+import { Link, useLoaderData } from '@remix-run/react';
+import { Login } from '../Login/Login';
+import { MemberMenu } from './MemberMenu';
 
 const navLinks = [
   {name: "ABOUT", link: null, children: [
@@ -27,6 +29,8 @@ const navLinks = [
 ]
 
 export const NavBar: React.FC = () => {
+  let data: any = useLoaderData<any>();
+  const { user } = data;
   return (
     <div className="nav-bar">
       <nav className="nav-bar__links">
@@ -48,6 +52,7 @@ export const NavBar: React.FC = () => {
           )
         })}
       </nav>
+      {!user?<Login />:<MemberMenu />}
     </div>
   )
 }
