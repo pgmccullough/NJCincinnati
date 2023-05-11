@@ -4,7 +4,7 @@ export const sanitize = (dirtyObj: any) => {
     if(key==="custom_fields") {
       const customFields = dirtyObj[key];
       const cf = [];
-      for(const customField of customFields) cf.push({[customField.meta_key]: customField.meta_value});
+      for(const customField of customFields) cf.push({[customField.meta_key]: [customField.meta_value, String(customField.meta_id), String(customField.post_id)]});
       dirtyObj[key] = JSON.stringify(cf);
     }
   });
@@ -18,7 +18,7 @@ export const sanitizeArray = (dirtyObj: any) => {
       if(key==="custom_fields") {
         const customFields = obj[key];
         const cf = [];
-        for(const customField of customFields) cf.push({[customField.meta_key]: customField.meta_value});
+        for(const customField of customFields) cf.push({[customField.meta_key]: [customField.meta_value, String(customField.meta_id), String(customField.post_id)]});
         obj[key] = JSON.stringify(cf);
       }
     });
@@ -28,5 +28,5 @@ export const sanitizeArray = (dirtyObj: any) => {
 
 export const getCustomFields = (fields:{[key: string]: string}[], key:string) => {
   const field = fields.find((field:any) => field[key]);
-  return field?field[key]:"";
+  return field?field[key][0]:"";
 }
