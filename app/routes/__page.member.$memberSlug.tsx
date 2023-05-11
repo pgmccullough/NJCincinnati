@@ -11,7 +11,7 @@ export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
   const isUser = postCategories.find((cat:{
     term_id: bigint, name: string, slug: string, term_group: bigint
   }) => cat.name === 'Users');
-  if(!isUser) return redirect(`/${params.memberSlug}`, 301);
+  if(!isUser) throw redirect(`/${params.memberSlug}`, 301);
   let { custom_fields } = member;
   custom_fields = JSON.parse(custom_fields);
   const succession = await getSuccession(getCustomFields(custom_fields,"User Propositus")||member.ID);
@@ -83,7 +83,8 @@ export default function Member() {
         <div style={{clear:"both"}}/>
       </section>
       <section>
-        {succession.map((successor:any, i:number) =>
+        {succession.length > 1
+          && succession.map((successor:any, i:number) =>
           member.ID===successor.ID&&!getCustomFields(successor.custom_fields,"User Propositus")
             ?<h1 key={successor.ID}>Successors</h1>
             :!getCustomFields(successor.custom_fields,"User Propositus")
