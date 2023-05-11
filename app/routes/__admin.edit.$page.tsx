@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
-import { LoaderArgs, LoaderFunction } from '@remix-run/node';
+import { LoaderArgs, LoaderFunction, V2_MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { V2_MetaFunction } from '@remix-run/node';
+import { useState } from 'react';
+import { TextEditor } from '~/components/TextEditor/TextEditor';
 
 export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
   const prisma = new PrismaClient();
@@ -35,10 +36,14 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Page() {
   let userData: any = useLoaderData<any>();
+  const [ postContent, setPostContent ] = useState<string>(userData?.post_content);
   return (
     <>
         <input type="text" value={userData?.post_title} />
-        <article className="content__article" dangerouslySetInnerHTML={{__html: userData?.post_content}} />
+        <TextEditor
+          htmlString={postContent}
+          contentStateSetter={setPostContent}
+        />
     </>
   )
 }

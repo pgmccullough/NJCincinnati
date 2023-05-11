@@ -236,7 +236,8 @@ const InitialText = ({htmlString}:any) => {
   const [ editor ] = useLexicalComposerContext();
   useEffect(() => {
     editor.update(() => {
-      if($getRoot().__children.length <= 1) {
+      console.log($getRoot());
+      if(Number($getRoot().__size) <= 1) {
         const parser = new DOMParser();
         const dom = parser.parseFromString(htmlString||"", 'text/html');
         const nodes = $generateNodesFromDOM(editor, dom);
