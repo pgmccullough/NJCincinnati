@@ -1,14 +1,17 @@
-import { LoaderArgs, LoaderFunction } from '@remix-run/node';
+import { LoaderArgs, LoaderFunction, redirect, V2_MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { V2_MetaFunction } from '@remix-run/node';
-import { Header, NavBar } from '~/components';
-import { getPostBySlug, getSuccession } from '~/data/controllers';
+import { getCategories, getPostBySlug, getSuccession } from '~/data/controllers';
 import { getCustomFields } from '~/data';
 import { Card } from '~/components/Card';
 
 export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
   const slug = params.memberSlug;
   const member:any = await getPostBySlug(slug!);
+  const postCategories = await getCategories(member.ID);
+  const isUser = postCategories.find((cat:{
+    term_id: bigint, name: string, slug: string, term_group: bigint
+  }) => cat.name === 'Users');
+  if(!isUser) return redirect(`/${params.memberSlug}`, 301);
   let { custom_fields } = member;
   custom_fields = JSON.parse(custom_fields);
   const succession = await getSuccession(getCustomFields(custom_fields,"User Propositus")||member.ID);

@@ -3,7 +3,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "npm-run-all build --parallel \"dev:*\"",
+    "dev": "remix build && run-p \"dev:*\"",
     "dev:node": "cross-env NODE_ENV=development nodemon --require dotenv/config ./server.js --watch ./server.js",
     "dev:remix": "remix watch",
     "sass": "sass --watch app/:app/",
@@ -25,8 +25,7 @@
     "morgan": "^1.10.0",
     "prisma": "^4.13.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "sass": "^1.62.1"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^1.16.0",
@@ -40,6 +39,7 @@
     "eslint": "^8.38.0",
     "nodemon": "^2.0.22",
     "npm-run-all": "^4.1.5",
+    "sass": "^1.62.1",
     "typescript": "^5.0.4"
   },
   "engines": {

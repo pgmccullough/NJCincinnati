@@ -1,28 +1,35 @@
 import { PrismaClient } from '@prisma/client'
-import { LoaderArgs, LoaderFunction } from '@remix-run/node';
+import { LoaderArgs, LoaderFunction, redirect } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
 import { V2_MetaFunction } from '@remix-run/node';
+import { getCategories } from '~/data/controllers';
 
 export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
   const prisma = new PrismaClient();
   const slug = params.page;
-  let userData:any = await prisma.njsoc_posts.findFirst({
+  let postData:any = await prisma.njsoc_posts.findFirst({
     where: { post_name: slug }
   })
-  userData
-    ?Object.entries(userData).forEach(([key, value]:any) => {
-      if(typeof value==="bigint") userData[key] = value.toString()
+  postData
+    ?Object.entries(postData).forEach(([key, value]:any) => {
+      if(typeof value==="bigint") postData[key] = value.toString()
     })
     :""
 
   await prisma.$disconnect();
-  if(!userData) {
+  if(!postData) {
     throw new Response(null, {
       status: 404,
       statusText: "Not Found",
     })
   }
-  return userData;
+
+  const postCategories = await getCategories(postData.ID);
+  const isUser = postCategories.find((cat:{
+    term_id: bigint, name: string, slug: string, term_group: bigint
+  }) => cat.name === 'Users');
+  if(isUser) return redirect(`/member/${params.page}`, 301);
+  return postData;
 }
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -34,11 +41,11 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function Page() {
-  let userData: any = useLoaderData<any>();
+  let postData: any = useLoaderData<any>();
   return (
     <>
-        <h1>{userData?.post_title}</h1>
-        <article className="content__article" dangerouslySetInnerHTML={{__html: userData?.post_content}} />
+        <h1>{postData?.post_title}</h1>
+        <article className="content__article" dangerouslySetInnerHTML={{__html: postData?.post_content}} />
     </>
   )
 }
