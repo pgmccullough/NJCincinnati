@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { LoaderArgs, LoaderFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { Header, NavBar } from '~/components';
 import { V2_MetaFunction } from '@remix-run/node';
 
 export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {
@@ -36,15 +35,10 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Page() {
   let userData: any = useLoaderData<any>();
-
   return (
     <>
-      <Header />
-      <NavBar />
-      <main className="content">
         <h1>{userData?.post_title}</h1>
         <article className="content__article" dangerouslySetInnerHTML={{__html: userData?.post_content}} />
-      </main>
     </>
   )
 }

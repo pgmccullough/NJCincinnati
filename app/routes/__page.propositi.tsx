@@ -1,15 +1,12 @@
 import { LoaderFunction } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
-import { Header, NavBar } from '~/components';
 import { V2_MetaFunction } from '@remix-run/node';
 
 import { getPostByCategory } from '~/data/controllers';
 import { getCustomFields } from '~/data';
 
 export const loader: LoaderFunction = async () => {
-
   const propositi = await getPostByCategory('Propositi');
-
   if(!propositi) {
     throw new Response(null, {
       status: 404,
@@ -37,31 +34,27 @@ export default function Page() {
 
   return (
     <>
-      <Header />
-      <NavBar />
-      <main className="content">
-        {propositi.map((propositus: any) => {
-          const { custom_fields } = propositus;
-          return (
-            <div
-              key={propositus.ID}
-              className={`propositi-table${Number(getCustomFields(custom_fields,"Represented"))?" propositi-table--represented":""}`}
-            >
-              <div className="propositi-table__cell">
-                <Link to={`/member/${propositus.post_name}`}>
-                  {`${getCustomFields(custom_fields,"Sort Last Name")}, 
-                    ${getCustomFields(custom_fields,"Sort First Name")}`}
-                </Link>
-              </div>
-              <div className="propositi-table__cell">
-                <Link to={`/member/${propositus.post_name}`}>
-                  {getCustomFields(custom_fields,"Sort Desc")}
-                </Link>
-              </div>
+      {propositi.map((propositus: any) => {
+        const { custom_fields } = propositus;
+        return (
+          <div
+            key={propositus.ID}
+            className={`propositi-table${Number(getCustomFields(custom_fields,"Represented"))?" propositi-table--represented":""}`}
+          >
+            <div className="propositi-table__cell">
+              <Link to={`/member/${propositus.post_name}`}>
+                {`${getCustomFields(custom_fields,"Sort Last Name")}, 
+                  ${getCustomFields(custom_fields,"Sort First Name")}`}
+              </Link>
             </div>
-          )
-        })}
-      </main>
+            <div className="propositi-table__cell">
+              <Link to={`/member/${propositus.post_name}`}>
+                {getCustomFields(custom_fields,"Sort Desc")}
+              </Link>
+            </div>
+          </div>
+        )
+      })}
     </>
   )
 }

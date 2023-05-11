@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from '@remix-run/react';
-import { Login } from '../Login/Login';
 import { MemberMenu } from './MemberMenu';
 
 const navLinks = [
@@ -51,7 +50,7 @@ export const NavBar: React.FC = () => {
           )
         })}
       </nav>
-      {data?.user?<MemberMenu />:<Login />}
+      <MemberMenu />
     </div>
   )
 }

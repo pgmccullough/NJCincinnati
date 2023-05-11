@@ -12,9 +12,9 @@ import {
 import { V2_ErrorBoundaryComponent } from "@remix-run/react/dist/routeModules";
 import styles from "~/styles/style.css";
 
-export const links: LinksFunction = () => [
-  ...[{ rel: "stylesheet", href: styles }],
-];
+export const links: LinksFunction = () => {
+  return [{ rel: "stylesheet", href: styles }];
+};
 
 export const ErrorBoundary: V2_ErrorBoundaryComponent|any = () => {
   const error = useRouteError();

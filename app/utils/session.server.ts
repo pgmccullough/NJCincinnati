@@ -56,7 +56,6 @@ export async function getUser(request: Request) {
     where: { meta_key: "User uID", meta_value: userId.toString() }
   })
   .catch(error => console.error(error));
-  console.log(user_post);
   const user = await getPostByID(user_post.post_id);
   const username = user.post_title;
   const img = getCustomFields(JSON.parse(user.custom_fields),"User Thumb");
@@ -88,7 +87,6 @@ export async function login({
     where: { user_login: username }
   })
   .catch(error => console.error(error));
-  console.log("USER: ",user);
   await prisma.$disconnect();
   if (!user) return null;
   // const isCorrectPassword = await bcrypt.compare(
@@ -100,9 +98,9 @@ export async function login({
   return { id: user.ID, username: user.user_login };
 }
 
-export async function logout(request: Request) {
+export async function logout(request: Request, redirectTo: string) {
   const session = await getUserSession(request);
-  return redirect("/login", {
+  return redirect(redirectTo, {
     headers: {
       "Set-Cookie": await storage.destroySession(session),
     },
