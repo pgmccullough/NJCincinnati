@@ -34,7 +34,6 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Page() {
   let userData: any = useLoaderData<any>();
-  console.log(userData);
   const custom_fields = JSON.parse(userData.custom_fields);
   const groupedCF:{[key: string]: any[]} = {};
   Object.values(custom_fields).map((cf:any) => {
@@ -45,12 +44,18 @@ export default function Page() {
     }
   })
 
-
-
   const [ postTitle, setPostTitle ] = useState<string>(userData?.post_title)
   const [ postContent, setPostContent ] = useState<string>(userData?.post_content);
   const [ customFields, setCustomFields ] = useState<{[key: string]: any}>(groupedCF);
   
+  const updateCF = (newValue: string, cfKey: string, cfId: string) => {
+    const updatedCfVal = customFields[cfKey].map(
+      (val: any) => 
+      val[1]===cfId?[newValue,val[1],val[2]]:[val[0],val[1],val[2]]
+    );
+    setCustomFields({...customFields, [cfKey]: updatedCfVal});
+  }
+
   return (
     <div className="editor">
       <main className="edit-post">
@@ -66,12 +71,16 @@ export default function Page() {
         <section className="edit-custom">
           <h1>Custom Fields</h1>
           {Object.entries(customFields).map((cf:any,i:number) => 
-            <div key={`edit_cf_${i}`} className="edit-custom__key-value">
+            <div key={`parent_${cf[1][0][1]}`} className="edit-custom__key-value">
               <div className="">{cf[0]}</div>
-              {/* <input 
-                className=""
-                value={cf[1]}
-              /> */}
+              {cf[1].map((val:any) => 
+                <input 
+                  className=""
+                  key={`input_${val[1]}`}
+                  onChange={(e) => updateCF(e.target.value, cf[0], val[1])}
+                  value={val[0]}
+                />
+              )}
             </div>
           )}
         </section>
