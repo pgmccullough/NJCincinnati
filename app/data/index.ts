@@ -1,13 +1,13 @@
 export const sanitize = (dirtyObj: any) => {
-  Object.entries(dirtyObj).forEach(([key, value]:any) => {
-    if(typeof value==="bigint") dirtyObj[key] = value.toString();
-    if(key==="custom_fields") {
-      const customFields = dirtyObj[key];
-      const cf = [];
-      for(const customField of customFields) cf.push({[customField.meta_key]: [customField.meta_value, String(customField.meta_id), String(customField.post_id)]});
-      dirtyObj[key] = JSON.stringify(cf);
-    }
-  });
+    Object.entries(dirtyObj).forEach(([key, value]:any) => {
+      if(typeof value==="bigint") dirtyObj[key] = value.toString();
+      if(key==="custom_fields") {
+        const customFields = dirtyObj[key];
+        const cf = [];
+        for(const customField of customFields) cf.push({[customField.meta_key]: [customField.meta_value, String(customField.meta_id), String(customField.post_id)]});
+        dirtyObj[key] = JSON.stringify(cf);
+      }
+    });
   return dirtyObj;
 }
 

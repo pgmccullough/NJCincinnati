@@ -44,7 +44,8 @@ export default function Page() {
     }
   })
 
-  const [ postTitle, setPostTitle ] = useState<string>(userData?.post_title)
+  const [ postTitle, setPostTitle ] = useState<string>(userData?.post_title);
+  const [ postSlug, setPostSlug ] = useState<string>(userData?.post_name);
   const [ postContent, setPostContent ] = useState<string>(userData?.post_content);
   const [ customFields, setCustomFields ] = useState<{[key: string]: any}>(groupedCF);
   
@@ -63,6 +64,11 @@ export default function Page() {
           onChange={(e) => setPostTitle(e.target.value)}
           type="text"
           value={postTitle}
+        />
+        <input
+          onChange={(e) => setPostSlug(e.target.value)}
+          type="text"
+          value={postSlug}
         />
         <TextEditor
           contentStateSetter={setPostContent}

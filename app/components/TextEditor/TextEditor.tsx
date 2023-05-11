@@ -19,11 +19,13 @@ import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext
 
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
 import { ContentEditable } from '@lexical/react/LexicalContentEditable';
+
 import { NodeEventPlugin } from '@lexical/react/LexicalNodeEventPlugin';
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
 import { mergeRegister } from '@lexical/utils';
 // import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
+import { ImageNode } from "./nodes/ImageNode";
 import { HorizontalRuleNode } from "@lexical/react/LexicalHorizontalRuleNode";
 import { $createLinkNode, $isLinkNode, LinkNode, toggleLink } from '@lexical/link';
 import type { EditorState, LexicalEditor } from "lexical";
@@ -186,7 +188,7 @@ export const TextEditor: React.FC<{
               strikethrough: 'line-through',
             },
           },
-          nodes: [HorizontalRuleNode, LinkNode],
+          nodes: [HorizontalRuleNode, ImageNode, LinkNode],
           onError(error) {
             throw error;
           },
@@ -237,6 +239,7 @@ const InitialText = ({htmlString}:any) => {
   useEffect(() => {
     editor.update(() => {
       if(Number($getRoot().__size) <= 1) {
+        console.log(htmlString);
         const parser = new DOMParser();
         const dom = parser.parseFromString(htmlString||"", 'text/html');
         const nodes = $generateNodesFromDOM(editor, dom);

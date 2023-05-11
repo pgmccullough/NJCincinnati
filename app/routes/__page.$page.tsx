@@ -1,7 +1,6 @@
 import { PrismaClient } from '@prisma/client'
-import { LoaderArgs, LoaderFunction, redirect } from '@remix-run/node';
+import { LoaderArgs, LoaderFunction, redirect, V2_MetaFunction } from '@remix-run/node';
 import { useLoaderData } from '@remix-run/react';
-import { V2_MetaFunction } from '@remix-run/node';
 import { getCategories } from '~/data/controllers';
 
 export const loader: LoaderFunction = async ({ params }: LoaderArgs) => {

@@ -29,6 +29,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Member() {
   const data: any = useLoaderData<any>();
+  console.log(data);
   let { member, succession } = data;
   let { custom_fields } = member;
   custom_fields = JSON.parse(custom_fields);
