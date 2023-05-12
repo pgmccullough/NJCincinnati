@@ -19,7 +19,7 @@ import type {
   Spread,
 } from 'lexical';
 
-import {$applyNodeReplacement, createEditor, DecoratorNode} from 'lexical';
+import {$applyNodeReplacement, $getNodeByKey, createEditor, DecoratorNode} from 'lexical';
 import * as React from 'react';
 import {Suspense} from 'react';
 
@@ -38,12 +38,13 @@ export interface ImagePayload {
   src: string;
   width?: number;
   captionsEnabled?: boolean;
+  parentNode?: any;
 }
 
 function convertImageElement(domNode: Node): null | DOMConversionOutput {
   if (domNode instanceof HTMLImageElement) {
-    const {alt: altText, src, width, height} = domNode;
-    const node = $createImageNode({altText, height, src, width});
+    const {alt: altText, src, width, height, parentNode} = domNode;
+    const node = $createImageNode({altText, height, src, width, parentNode});
     return {node};
   }
   return null;
@@ -58,6 +59,7 @@ export type SerializedImageNode = Spread<
     showCaption: boolean;
     src: string;
     width?: number;
+    parentNode: any;
   },
   SerializedLexicalNode
 >;
@@ -72,6 +74,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   __caption: LexicalEditor;
   // Captions cannot yet be used within editor cells
   __captionsEnabled: boolean;
+  __parentNode: any;
 
   static getType(): string {
     return 'image';
@@ -88,16 +91,18 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
       node.__caption,
       node.__captionsEnabled,
       node.__key,
+      node.__parentNode
     );
   }
 
   static importJSON(serializedNode: SerializedImageNode): ImageNode {
-    const {altText, height, width, maxWidth, caption, src, showCaption} =
+    const {altText, height, width, maxWidth, parentNode, caption, src, showCaption} =
       serializedNode;
     const node = $createImageNode({
       altText,
       height,
       maxWidth,
+      parentNode,
       showCaption,
       src,
       width,
@@ -111,6 +116,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   exportDOM(): DOMExportOutput {
+    console.log(this);
     const element = document.createElement('img');
     element.setAttribute('src', this.__src);
     element.setAttribute('alt', this.__altText);
@@ -138,6 +144,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     caption?: LexicalEditor,
     captionsEnabled?: boolean,
     key?: NodeKey,
+    parentNode?: any,
   ) {
     super(key);
     this.__src = src;
@@ -148,6 +155,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
     this.__showCaption = showCaption || false;
     this.__caption = caption || createEditor();
     this.__captionsEnabled = captionsEnabled || captionsEnabled === undefined;
+    this.__parentNode = parentNode;
   }
 
   exportJSON(): SerializedImageNode {
@@ -161,6 +169,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
       type: 'image',
       version: 1,
       width: this.__width === 'inherit' ? 0 : this.__width,
+      parentNode: this.__parentNode
     };
   }
 
@@ -216,6 +225,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
           caption={this.__caption}
           captionsEnabled={this.__captionsEnabled}
           resizable={true}
+          parentNode={this.__parentNode}
         />
       </Suspense>
     );
@@ -232,7 +242,9 @@ export function $createImageNode({
   showCaption,
   caption,
   key,
+  parentNode
 }: ImagePayload): ImageNode {
+  console.log("HEY",parentNode);
   return $applyNodeReplacement(
     new ImageNode(
       src,
@@ -244,6 +256,7 @@ export function $createImageNode({
       caption,
       captionsEnabled,
       key,
+      parentNode,
     ),
   );
 }

@@ -52,7 +52,7 @@ import {Suspense, useCallback, useEffect, useRef, useState} from 'react';
 // import LinkPlugin from '../plugins/LinkPlugin';
 // import MentionsPlugin from '../plugins/MentionsPlugin';
 // import TreeViewPlugin from '../plugins/TreeViewPlugin';
-// import ContentEditable from '../ui/ContentEditable';
+import { ContentEditable } from '@lexical/react/LexicalContentEditable';
 // import ImageResizer from '../ui/ImageResizer';
 // import Placeholder from '../ui/Placeholder';
 import {$isImageNode} from './ImageNode';
@@ -117,6 +117,7 @@ export default function ImageComponent({
   showCaption,
   caption,
   captionsEnabled,
+  parentNode,
 }: {
   altText: string;
   caption: LexicalEditor;
@@ -128,13 +129,13 @@ export default function ImageComponent({
   src: string;
   width: 'inherit' | number;
   captionsEnabled: boolean;
+  parentNode: any;
 }): JSX.Element {
   const imageRef = useRef<null | HTMLImageElement>(null);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [isSelected, setSelected, clearSelection] =
     useLexicalNodeSelection(nodeKey);
   const [isResizing, setIsResizing] = useState<boolean>(false);
-  const {isCollabActive} = useCollaborationContext();
   const [editor] = useLexicalComposerContext();
   const [selection, setSelection] = useState<
     RangeSelection | NodeSelection | GridSelection | null
@@ -321,6 +322,14 @@ export default function ImageComponent({
     setIsResizing(true);
   };
 
+  const Placeholder = ({placeholderText}:{placeholderText?:string}) => {
+    return (
+      <div className="textEditor__placeholder">
+        {placeholderText||"Write something..."}
+      </div>
+    )
+  }
+
   // const {historyState} = useSharedHistoryContext();
   // const {
   //   settings: {showNestedEditorTreeView},
@@ -348,35 +357,15 @@ export default function ImageComponent({
         </div>
         {showCaption && (
           <div className="image-caption-container">
-            {/* <LexicalNestedComposer initialEditor={caption}>
-              <AutoFocusPlugin />
-              <MentionsPlugin />
-              <LinkPlugin />
-              <EmojisPlugin />
-              <HashtagPlugin />
-              <KeywordsPlugin />
-              {isCollabActive ? (
-                <CollaborationPlugin
-                  id={caption.getKey()}
-                  providerFactory={createWebsocketProvider}
-                  shouldBootstrap={true}
-                />
-              ) : (
-                <HistoryPlugin externalHistoryState={historyState} />
-              )}
+            <LexicalNestedComposer initialEditor={caption}>
               <RichTextPlugin
                 contentEditable={
                   <ContentEditable className="ImageNode__contentEditable" />
                 }
-                placeholder={
-                  <Placeholder className="ImageNode__placeholder">
-                    Enter a caption...
-                  </Placeholder>
-                }
+                placeholder={<Placeholder placeholderText="image text" />}
                 ErrorBoundary={LexicalErrorBoundary}
               />
-              {showNestedEditorTreeView === true ? <TreeViewPlugin /> : null}
-            </LexicalNestedComposer> */}
+            </LexicalNestedComposer>
           </div>
         )}
         {/* {resizable && $isNodeSelection(selection) && isFocused && (

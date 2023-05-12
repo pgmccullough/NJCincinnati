@@ -149,7 +149,9 @@ export const TextEditor: React.FC<{
     })
   }
 
-
+  const htmlEntities = (str: string) => {
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
   
   return (
     <div className={`textEditor ${styleClass||""}`}>
@@ -202,7 +204,7 @@ export const TextEditor: React.FC<{
           ErrorBoundary={LexicalErrorBoundary}
           placeholder={<Placeholder placeholderText={placeholderText} />}
         />
-        {htmlString?<InitialText htmlString={htmlString} />:""}
+        {htmlString?<InitialText htmlString={(htmlString)} />:""}
         <NodeEventPlugin nodeType={LinkNode} eventType={'contextmenu'} eventListener={linkClicked} />
         
         {setIsFocused?<DetectFocusPlugin />:""}
@@ -239,7 +241,6 @@ const InitialText = ({htmlString}:any) => {
   useEffect(() => {
     editor.update(() => {
       if(Number($getRoot().__size) <= 1) {
-        console.log(htmlString);
         const parser = new DOMParser();
         const dom = parser.parseFromString(htmlString||"", 'text/html');
         const nodes = $generateNodesFromDOM(editor, dom);
