@@ -305,7 +305,7 @@ export default function ImageComponent({
     nextWidth: 'inherit' | number,
     nextHeight: 'inherit' | number,
   ) => {
-    // Delay hiding the resize bars for click case
+    // Delay hidfing the resize bars for click case
     setTimeout(() => {
       setIsResizing(false);
     }, 200);
@@ -338,6 +338,7 @@ export default function ImageComponent({
   const draggable = isSelected && $isNodeSelection(selection) && !isResizing;
   const isFocused = isSelected || isResizing;
   const ParentTag = parentNode.localName;
+  const siblings = [...parentNode.children].filter(node => node.localName!=="img");
   return (
     <Suspense fallback={null}>
       <>
@@ -355,8 +356,7 @@ export default function ImageComponent({
             height={height}
             maxWidth={maxWidth}
           />
-        </ParentTag>
-        {showCaption && (
+          {showCaption && (
           <div className="image-caption-container">
             <LexicalNestedComposer initialEditor={caption}>
               <RichTextPlugin
@@ -369,18 +369,19 @@ export default function ImageComponent({
             </LexicalNestedComposer>
           </div>
         )}
-        {/* {resizable && $isNodeSelection(selection) && isFocused && (
-          <ImageResizer
-            showCaption={showCaption}
-            setShowCaption={setShowCaption}
-            editor={editor}
-            buttonRef={buttonRef}
-            imageRef={imageRef}
-            maxWidth={maxWidth}
-            onResizeStart={onResizeStart}
-            onResizeEnd={onResizeEnd}
-            captionsEnabled={captionsEnabled}
-          />
+        </ParentTag>
+        {/* {showCaption && (
+          <div className="image-caption-container">
+            <LexicalNestedComposer initialEditor={caption}>
+              <RichTextPlugin
+                contentEditable={
+                  <ContentEditable className="ImageNode__contentEditable" />
+                }
+                placeholder={<Placeholder placeholderText="image text" />}
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+            </LexicalNestedComposer>
+          </div>
         )} */}
       </>
     </Suspense>

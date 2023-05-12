@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client'
 import { LoaderArgs, LoaderFunction, V2_MetaFunction } from '@remix-run/node';
-import { useLoaderData } from '@remix-run/react';
-import { useState } from 'react';
+import { Link, useLoaderData, useSearchParams } from '@remix-run/react';
+import { useEffect, useState } from 'react';
 import { getPostBySlug } from '~/data/controllers';
 import { TextEditor } from '~/components/TextEditor/TextEditor';
 
@@ -34,6 +34,7 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
 export default function Page() {
   let userData: any = useLoaderData<any>();
+
   const custom_fields = JSON.parse(userData.custom_fields);
   const groupedCF:{[key: string]: any[]} = {};
   Object.values(custom_fields).map((cf:any) => {
@@ -44,10 +45,15 @@ export default function Page() {
     }
   })
 
+  const [ htmlCheck ] = useSearchParams();
   const [ postTitle, setPostTitle ] = useState<string>(userData?.post_title);
   const [ postSlug, setPostSlug ] = useState<string>(userData?.post_name);
-  const [ postContent, setPostContent ] = useState<string>(userData?.post_content);
+  const [ , setPostContent ] = useState<string>(userData?.post_content);
   const [ customFields, setCustomFields ] = useState<{[key: string]: any}>(groupedCF);
+
+  if(htmlCheck.get("view")) {
+    userData.post_content = `${userData.post_content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}`;
+  }
   
   const updateCF = (newValue: string, cfKey: string, cfId: string) => {
     const updatedCfVal = customFields[cfKey].map(
@@ -70,9 +76,10 @@ export default function Page() {
           type="text"
           value={postSlug}
         />
+        {!htmlCheck.get("view")?<a href="?view=html">HTML</a>:<a href="?">Rich Text</a>}
         <TextEditor
           contentStateSetter={setPostContent}
-          htmlString={postContent}
+          htmlString={userData?.post_content}
         />
         <section className="edit-custom">
           <h1>Custom Fields</h1>

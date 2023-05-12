@@ -45,7 +45,7 @@ export const TextEditor: React.FC<{
   attachmentAction,
   clearContent,
   contentStateSetter, 
-  htmlString, 
+  htmlString,
   placeholderText,
   setIsFocused,
   styleClass,
@@ -148,11 +148,6 @@ export const TextEditor: React.FC<{
         :console.error("State setter must be passed to access content");
     })
   }
-
-  const htmlEntities = (str: string) => {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-  }
-  
   return (
     <div className={`textEditor ${styleClass||""}`}>
       {linkBox.editRemove
@@ -261,7 +256,7 @@ const Toolbar = ({attachmentAction, tbProps}:{attachmentAction?:any, tbProps?:{h
   const [ isItalic, setIsItalic ] = useState(false);
   const [ isStrikethrough, setIsStrikethrough ] = useState(false);
   const [ isUnderline, setIsUnderline ] = useState(false);
-  
+
   const createLink = (editor: LexicalEditor) => {
     editor.update(() => {
       toggleLink("");
