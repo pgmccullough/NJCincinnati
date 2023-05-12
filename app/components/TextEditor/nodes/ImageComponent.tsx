@@ -337,10 +337,11 @@ export default function ImageComponent({
 
   const draggable = isSelected && $isNodeSelection(selection) && !isResizing;
   const isFocused = isSelected || isResizing;
+  const ParentTag = parentNode.localName;
   return (
     <Suspense fallback={null}>
       <>
-        <div draggable={draggable}>
+        <ParentTag draggable={draggable} className={parentNode.className}>
           <LazyImage
             className={
               isFocused
@@ -354,7 +355,7 @@ export default function ImageComponent({
             height={height}
             maxWidth={maxWidth}
           />
-        </div>
+        </ParentTag>
         {showCaption && (
           <div className="image-caption-container">
             <LexicalNestedComposer initialEditor={caption}>
